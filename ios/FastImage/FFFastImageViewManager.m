@@ -20,7 +20,9 @@ RCT_EXPORT_VIEW_PROPERTY(onFastImageLoad, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onFastImageLoadEnd, RCTDirectEventBlock)
 RCT_REMAP_VIEW_PROPERTY(tintColor, imageColor, UIColor)
 
-RCT_EXPORT_METHOD(preload:(nonnull NSArray<FFFastImageSource *> *)sources)
+RCT_EXPORT_METHOD(preload:(nonnull NSArray<FFFastImageSource *> *)sources
+                  preloadWithResolver:(RCTPromiseResolveBlock) resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSMutableArray *urls = [NSMutableArray arrayWithCapacity:sources.count];
 
@@ -31,7 +33,13 @@ RCT_EXPORT_METHOD(preload:(nonnull NSArray<FFFastImageSource *> *)sources)
         [urls setObject:source.url atIndexedSubscript:idx];
     }];
 
-    [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urls];
+    [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urls progress:^(NSUInteger finishedUrls, NSUInteger totalUrls) {
+    } completed:^(NSUInteger finishedUrls, NSUInteger skippedUrls) {
+        resolve(@{
+            @"finished": [NSString stringWithFormat:@"%lu", finishedUrls],
+            @"skipped": [NSString stringWithFormat:@"%lu", skippedUrls],
+        });
+    }];
 }
 
 @end

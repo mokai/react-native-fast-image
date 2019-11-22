@@ -102,7 +102,7 @@ FastImage.cacheControl = {
 }
 
 FastImage.preload = sources => {
-    FastImageViewNativeModule.preload(sources)
+    return FastImageViewNativeModule.preload(sources)
 }
 
 FastImage.defaultProps = {
