@@ -101,9 +101,11 @@ FastImage.cacheControl = {
     cacheOnly: 'cacheOnly',
 }
 
-FastImage.preload = async sources => {
-    await FastImageViewNativeModule.preload(sources)
-}
+FastImage.preload = async sources => await FastImageViewNativeModule.preload(sources)
+
+FastImage.getCachePath = async uri => await FastImageViewNativeModule.getCachePath(uri)
+
+FastImage.getCachePaths = async uris => await FastImageViewNativeModule.getCachePaths(uris)
 
 FastImage.defaultProps = {
     resizeMode: FastImage.resizeMode.cover,
