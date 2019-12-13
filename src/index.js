@@ -101,8 +101,8 @@ FastImage.cacheControl = {
     cacheOnly: 'cacheOnly',
 }
 
-FastImage.preload = sources => {
-    FastImageViewNativeModule.preload(sources)
+FastImage.preload = async sources => {
+    await FastImageViewNativeModule.preload(sources)
 }
 
 FastImage.defaultProps = {
