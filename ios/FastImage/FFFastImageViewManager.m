@@ -37,8 +37,8 @@ RCT_EXPORT_METHOD(preload:(nonnull NSArray<FFFastImageSource *> *)sources
     [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urls progress:^(NSUInteger finishedUrls, NSUInteger totalUrls) {
     } completed:^(NSUInteger finishedUrls, NSUInteger skippedUrls) {
         resolve(@{
-            @"finished": [NSString stringWithFormat:@"%lu", finishedUrls],
-            @"skipped": [NSString stringWithFormat:@"%lu", skippedUrls],
+            @"finished": @(finishedUrls),
+            @"skipped": @(skippedUrls),
         });
     }];
 }
